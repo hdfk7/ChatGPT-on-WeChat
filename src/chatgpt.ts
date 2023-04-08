@@ -304,7 +304,6 @@ export class ChatGPTBot {
     }
 
     async 麦扣(message: Message) {
-        console.log("message " + message.text());
         // e.g. if a message starts with "麦扣", the bot sends "🤖️：call我做咩啊大佬!"
         const myKeyword = "麦扣";
         if (message.text().includes(myKeyword)) {
