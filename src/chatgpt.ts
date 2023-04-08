@@ -26,6 +26,9 @@ enum MessageType {
 }
 
 export class ChatGPTBot {
+    //启动时间
+    startTime: Date = new Date();
+
     // chatbot name (WeChat account name)
     botName: string = "";
 
