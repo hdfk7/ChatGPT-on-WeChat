@@ -1,4 +1,4 @@
-export const cq = [
+export const sign = [
     {
         "name": "第○○一签 （功名利禄）",
         "value": "天门一挂榜，预定夺标人，马嘶芳草地，秋高听鹿鸣。 ",
