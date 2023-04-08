@@ -273,6 +273,7 @@ export class ChatGPTBot {
         if (isPrivateChat) {
             return await this.onPrivateMessage(talker, text);
         } else {
+            // @ts-ignore
             return await this.onGroupMessage(room, text);
         }
     }
