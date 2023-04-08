@@ -333,8 +333,10 @@ export class ChatGPTBot {
                     break;
                 }
                 this.signMap.set(talkerId, now);
-                let content = sign[parseInt(Math.random() * chouqian.length + "", 10)];
-                this.signContentMap.set(talkerId, content);
+                let index = parseInt(Math.random() * sign.length + "", 10);
+                let element = sign[index];
+                let content = `${element.name}\r\t${element.value}`;
+                this.signContentMap.set(talkerId, index + "");
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
@@ -356,7 +358,9 @@ export class ChatGPTBot {
                     await message.say(reply);
                     break;
                 }
-                let content = this.signContentMap.get(talkerId);
+                let index = JSON.parse(<string>this.signContentMap.get(talkerId));
+                let element = sign[parseInt(index, 10)];
+                let content = element.explain;
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
