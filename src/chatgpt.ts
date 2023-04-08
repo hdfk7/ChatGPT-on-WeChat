@@ -352,7 +352,7 @@ export class ChatGPTBot {
                 let date = this.signMap.get(talkerId);
                 let now = new Date();
                 if (!date || date.getDate() != now.getDate()) {
-                    const reply = `@${message.talker().name()} 你今天还没有抽签哟 干嘛呀`;
+                    const reply = `@${message.talker().name()} 你今天还没有抽签呢`;
                     await message.say(reply);
                     break;
                 }
