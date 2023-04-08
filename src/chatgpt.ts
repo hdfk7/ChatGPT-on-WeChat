@@ -262,7 +262,7 @@ export class ChatGPTBot {
         // get reply from ChatGPT
         const chatgptReplyMessage = await this.onChatGPT(text);
         // the whole reply consist of: original text and bot reply
-        const wholeReplyMessage = `@${message.talker().name()}\r\n${text}\n----------\n${chatgptReplyMessage}`;
+        const wholeReplyMessage = `@${message.talker().name()}\n${text}\n----------\n${chatgptReplyMessage}`;
         await this.reply(room, wholeReplyMessage);
     }
 
