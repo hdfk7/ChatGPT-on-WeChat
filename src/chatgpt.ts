@@ -297,8 +297,8 @@ export class ChatGPTBot {
     async 抽签(message: Message) {
         const keywords = ["@220 抽签", "@平安喜乐 抽签"];
         for (let i = 0; i < keywords.length; i++) {
-            let keyword = keywords[i];
-            if (message.text().startsWith(keyword)) {
+            let keyword = keywords[i].replace(/\s/g, '');
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
@@ -319,10 +319,10 @@ export class ChatGPTBot {
     }
 
     async 解签(message: Message) {
-        const keywords = ["@220 解签", "@平安喜乐 解签"];
+        const keywords = ["@220 抽签", "@平安喜乐 抽签"];
         for (let i = 0; i < keywords.length; i++) {
-            let keyword = keywords[i];
-            if (message.text().startsWith(keyword)) {
+            let keyword = keywords[i].replace(/\s/g, '');
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
