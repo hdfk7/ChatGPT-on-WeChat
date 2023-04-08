@@ -353,9 +353,10 @@ export class ChatGPTBot {
                         this.signData = JSON.parse(res);
                     }
                 }
+                console.log(this.signData);
                 let index = parseInt(Math.random() * this.signData.length + "", 10);
                 let element = this.signData[index];
-                let content = `${element.name}\r\t${element.value}`;
+                let content = `${element?.name}\r\t${element?.value}`;
                 this.signContentMap.set(talkerId, index + "");
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
