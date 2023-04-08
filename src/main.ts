@@ -29,11 +29,11 @@ async function main() {
         .on("message", async (message: any) => {
             try {
                 console.log(`📨 ${message}`);
-                console.log({timestamp: message.date(), startTime: chatGPTBot.startTime.getTime()})
-                // let msgDate = message.date()
-                // if (msgDate <= chatGPTBot.startTime.getTime()) {
-                //     return;
-                // }
+                console.log({timestamp: message.date().getTime(), startTime: chatGPTBot.startTime.getTime()})
+                let msgDate = message.date();
+                if (msgDate.getTime() <= chatGPTBot.startTime.getTime()) {
+                    return;
+                }
                 // handle message for customized task handlers
                 await chatGPTBot.onCustimzedTask(message);
                 // handle message for chatGPT bot
