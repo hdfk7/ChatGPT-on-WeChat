@@ -357,7 +357,7 @@ export class ChatGPTBot {
                 console.log(this.signData);
                 let index = parseInt(Math.random() * this.signData.length + "", 10);
                 let element = this.signData[index];
-                let content = `${element?.name}  ${element?.value}`;
+                let content = `${element?.name}\r\n${element?.value}`;
                 this.signContentMap.set(talkerId, index + "");
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
@@ -383,7 +383,7 @@ export class ChatGPTBot {
                 let index = this.signContentMap.get(talkerId);
                 // @ts-ignore
                 let element = this.signData[parseInt(index, 10)];
-                let content = element.explain;
+                let content = `${element?.name}\r\n${element?.value}\r\n----------\r\n解签：${element.explain}`;
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
