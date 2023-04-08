@@ -308,7 +308,7 @@ export class ChatGPTBot {
                     break;
                 }
                 this.signMap.set(talkerId, now);
-                let content = "干嘛呀 我还没接入抽签功能哟";
+                let content = "干嘛呀 我还没接入抽签功能哟 " + Math.random().toString().replace(".", "");
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
