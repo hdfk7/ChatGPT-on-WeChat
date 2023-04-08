@@ -347,7 +347,7 @@ export class ChatGPTBot {
                     break;
                 }
                 this.signMap.set(talkerId, now);
-                if (!this.signData) {
+                if (!this.signData || this.signData.length <= 0) {
                     let res = await this.fetchHtml('https://docs.hdfk7.cn/static/000f.json');
                     console.log({res: res});
                     if (res) {
