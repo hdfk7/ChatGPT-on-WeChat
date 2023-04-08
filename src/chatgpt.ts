@@ -281,6 +281,7 @@ export class ChatGPTBot {
     }
 
     async 麦扣(message: Message) {
+        console.log("message " + message.text());
         // e.g. if a message starts with "麦扣", the bot sends "🤖️：call我做咩啊大佬!"
         const myKeyword = "麦扣";
         if (message.text().includes(myKeyword)) {
@@ -309,6 +310,7 @@ export class ChatGPTBot {
                 }
                 this.signMap.set(talkerId, now);
                 let content = "干嘛呀 我还没接入抽签功能哟 " + Math.random().toString().replace(".", "");
+                this.signContentMap.set(talkerId, content);
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
