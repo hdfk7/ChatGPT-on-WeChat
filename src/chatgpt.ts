@@ -27,7 +27,7 @@ enum MessageType {
 
 export class ChatGPTBot {
     //启动时间
-    startTime: Date = new Date();
+    startTime: Date = this.getNow()
 
     // chatbot name (WeChat account name)
     botName: string = "";
@@ -323,6 +323,13 @@ export class ChatGPTBot {
         return null;
     }
 
+    getNow(): Date {
+        let timezone = 8; //目标时区时间，东八区
+        let offset_GMT = new Date().getTimezoneOffset(); // 本地时间和格林威治的时间差，单位为分钟
+        let nowDate = new Date().getTime(); // 本地时间距 1970 年 1 月 1 日午夜（GMT 时间）之间的毫秒数
+        return new Date(nowDate + offset_GMT * 60 * 1000 + timezone * 60 * 60 * 1000);
+    }
+
     // handle message for customized task handlers
     async onCustimzedTask(message: Message) {
         this.麦扣(message);
@@ -352,7 +359,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
-                let now = new Date();
+                let now = this.getNow()
                 console.log({now: now, ms: now.getTime()})
                 if (date && date.getDate() == now.getDate()) {
                     const reply = `@${message.talker().name()} 你今天已经抽过签了`;
@@ -386,7 +393,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
-                let now = new Date();
+                let now = this.getNow()
                 if (!date || date.getDate() != now.getDate()) {
                     const reply = `@${message.talker().name()} 你今天还没有抽签呢`;
                     await message.say(reply);
@@ -411,7 +418,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.yijuMap.get(talkerId);
-                let now = new Date();
+                let now = this.getNow()
                 if (date && date.getDate() == now.getDate()) {
                     let content = this.yijuContentMap.get(talkerId);
                     const reply = `@${message.talker().name()} ${content}`;
