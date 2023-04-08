@@ -334,7 +334,7 @@ export class ChatGPTBot {
     }
 
     async 抽签(message: Message) {
-        const keywords = ["@220 抽签", "@平安喜乐 抽签"];
+        const keywords = ["@220 抽签", "@平安喜乐 抽签", "@赛博算命 抽签"];
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
             if (message.text().replace(/\s/g, '').startsWith(keyword)) {
@@ -367,7 +367,7 @@ export class ChatGPTBot {
     }
 
     async 解签(message: Message) {
-        const keywords = ["@220 解签", "@平安喜乐 解签"];
+        const keywords = ["@220 解签", "@平安喜乐 解签", "@赛博算命 解签"];
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
             if (message.text().replace(/\s/g, '').startsWith(keyword)) {
@@ -392,7 +392,7 @@ export class ChatGPTBot {
     }
 
     async 每日一句(message: Message) {
-        const keywords = ["@220 fw", "@平安喜乐 fw"];
+        const keywords = ["@220 fw", "@平安喜乐 fw ", "@赛博算命 fw"];
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
             if (message.text().replace(/\s/g, '').startsWith(keyword)) {
