@@ -61,7 +61,7 @@ export class ChatGPTBot {
     private openaiApiInstance: any; // OpenAI API instance
 
     //抽签相关
-    signData: Array<any> | undefined;
+    signData: Array<any> = new Array<any>();
     signMap: Map<string, Date> = new Map;
     signContentMap: Map<string, string> = new Map;
 
@@ -296,6 +296,21 @@ export class ChatGPTBot {
         return null;
     }
 
+    async fetchHtml(url: string) {
+        try {
+            const response = await fetch(url)
+            console.log({response});
+            if (response.status === 200) {
+                return await response.text();
+            } else {
+                console.log('请求异常')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+        return null;
+    }
+
     // handle message for customized task handlers
     async onCustimzedTask(message: Message) {
         this.麦扣(message);
@@ -332,17 +347,18 @@ export class ChatGPTBot {
                     break;
                 }
                 this.signMap.set(talkerId, now);
-                let res = await this.fetchAPI('https://docs.hdfk7.cn/static/000f.json');
-                if (res && res.code === 1 && res.data) {
-                    console.log({"res.data": res.data})
+                if (!this.signData) {
+                    let res = await this.fetchHtml('https://docs.hdfk7.cn/static/000f.json');
+                    if (res) {
+                        this.signData = JSON.parse(res);
+                    }
                 }
-
-                // let index = parseInt(Math.random() * this.signData.length + "", 10);
-                // let element = this.signData[index];
-                // let content = `${element.name}\r\t${element.value}`;
-                // this.signContentMap.set(talkerId, index + "");
-                // const reply = `@${message.talker().name()} ${content}`;
-                // await message.say(reply);
+                let index = parseInt(Math.random() * this.signData.length + "", 10);
+                let element = this.signData[index];
+                let content = `${element.name}\r\t${element.value}`;
+                this.signContentMap.set(talkerId, index + "");
+                const reply = `@${message.talker().name()} ${content}`;
+                await message.say(reply);
                 break;
             }
         }
@@ -362,11 +378,11 @@ export class ChatGPTBot {
                     await message.say(reply);
                     break;
                 }
-                // let index = JSON.parse(<string>this.signContentMap.get(talkerId));
-                // let element = this.signData[parseInt(index, 10)];
-                // let content = element.explain;
-                // const reply = `@${message.talker().name()} ${content}`;
-                // await message.say(reply);
+                let index = JSON.parse(<string>this.signContentMap.get(talkerId));
+                let element = this.signData[parseInt(index, 10)];
+                let content = element.explain;
+                const reply = `@${message.talker().name()} ${content}`;
+                await message.say(reply);
                 break;
             }
         }
