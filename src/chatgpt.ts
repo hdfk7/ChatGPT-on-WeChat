@@ -58,6 +58,9 @@ export class ChatGPTBot {
     private openaiAccountConfig: any; // OpenAI API key (required) and organization key (optional)
     private openaiApiInstance: any; // OpenAI API instance
 
+    //抽签相关
+    signMap: Map<string, Date> = new Map;
+
     // set bot name during login stage
     setBotName(botName: string) {
         this.botName = botName;
@@ -272,6 +275,8 @@ export class ChatGPTBot {
     // handle message for customized task handlers
     async onCustimzedTask(message: Message) {
         this.麦扣(message);
+        this.抽签(message);
+        this.解签(message);
     }
 
     async 麦扣(message: Message) {
@@ -285,5 +290,29 @@ export class ChatGPTBot {
             console.log(`🤖️ ChatGPT says: ${myReply}`);
             return;
         }
+    }
+
+    async 抽签(message: Message) {
+        const keyword = "抽签";
+        if (message.text().startsWith(keyword)) {
+            console.log(`🎯 Customized task triggered: ${keyword}`);
+            let talkerId = message.talker().id;
+            let date = this.signMap.get(talkerId);
+            let now = new Date();
+            if (date && date.getDate() == now.getDate()) {
+                const reply = `@${message.talker().name()}你今天已经抽过签了`;
+                await message.say(reply);
+                return
+            }
+            this.signMap.set(talkerId, now);
+            let content = "模拟抽签";
+            const reply = `@${message.talker().name()} ${content}`;
+            await message.say(reply);
+            return;
+        }
+    }
+
+    async 解签(message: Message) {
+
     }
 }
