@@ -62,6 +62,10 @@ export class ChatGPTBot {
     signMap: Map<string, Date> = new Map;
     signContentMap: Map<string, string> = new Map;
 
+    //每日一句
+    yijuMap: Map<string, Date> = new Map;
+    yijuContentMap: Map<string, string> = new Map;
+
     // set bot name during login stage
     setBotName(botName: string) {
         this.botName = botName;
@@ -273,11 +277,26 @@ export class ChatGPTBot {
         }
     }
 
+    async fetchAPI(url: string) {
+        try {
+            const response = await fetch(url)
+            if (response.status === 200) {
+                return await response.json();
+            } else {
+                console.log('请求异常')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+        return null;
+    }
+
     // handle message for customized task handlers
     async onCustimzedTask(message: Message) {
         this.麦扣(message);
         this.抽签(message);
         this.解签(message);
+        this.每日一句(message);
     }
 
     async 麦扣(message: Message) {
@@ -304,7 +323,7 @@ export class ChatGPTBot {
                 let date = this.signMap.get(talkerId);
                 let now = new Date();
                 if (date && date.getDate() == now.getDate()) {
-                    const reply = `@${message.talker().name()}你今天已经抽过签了`;
+                    const reply = `@${message.talker().name()} 你今天已经抽过签了`;
                     await message.say(reply);
                     break;
                 }
@@ -328,7 +347,7 @@ export class ChatGPTBot {
                 let date = this.signMap.get(talkerId);
                 let now = new Date();
                 if (!date || date.getDate() != now.getDate()) {
-                    const reply = `@${message.talker().name()}你今天还没有抽签哟 干嘛呀`;
+                    const reply = `@${message.talker().name()} 你今天还没有抽签哟 干嘛呀`;
                     await message.say(reply);
                     break;
                 }
@@ -339,4 +358,31 @@ export class ChatGPTBot {
             }
         }
     }
+
+    async 每日一句(message: Message) {
+        const keywords = ["@220 fw", "@平安喜乐 fw"];
+        for (let i = 0; i < keywords.length; i++) {
+            let keyword = keywords[i].replace(/\s/g, '');
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
+                console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
+                let date = this.yijuMap.get(talkerId);
+                let now = new Date();
+                if (date && date.getDate() == now.getDate()) {
+                    let content = this.yijuContentMap.get(talkerId);
+                    const reply = `@${message.talker().name()} ${content}`;
+                    await message.say(reply);
+                    break;
+                }
+                this.yijuMap.set(talkerId, now);
+                let res = await this.fetchAPI('https://www.mxnzp.com/api/daily_word/recommend?count=10&app_id=ckklxdsimobnsug8&app_secret=SUJUU1pKTnJhSjBhcHdVK09ocXFkUT09');
+                let content = res ? res : "拿不到了";
+                this.yijuContentMap.set(talkerId, content);
+                const reply = `@${message.talker().name()} ${content}`;
+                await message.say(reply);
+                break;
+            }
+        }
+    }
+
 }
