@@ -380,7 +380,8 @@ export class ChatGPTBot {
                     await message.say(reply);
                     break;
                 }
-                let index = JSON.parse(<string>this.signContentMap.get(talkerId));
+                let index = this.signContentMap.get(talkerId);
+                // @ts-ignore
                 let element = this.signData[parseInt(index, 10)];
                 let content = element.explain;
                 const reply = `@${message.talker().name()} ${content}`;
