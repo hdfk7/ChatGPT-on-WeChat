@@ -383,7 +383,7 @@ export class ChatGPTBot {
                 let index = this.signContentMap.get(talkerId);
                 // @ts-ignore
                 let element = this.signData[parseInt(index, 10)];
-                let content = `\r\n${element?.name}\r\n${element?.value}\r\n----------\r\n解签：${element.explain}`;
+                let content = `\r\n${element?.name}\r\n${element?.value}\r\n----------\r\n${element.explain}`;
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
                 break;
