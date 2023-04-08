@@ -143,13 +143,21 @@ export class ChatGPTBot {
             //    1. the "@username" (mention)
             //    2. trigger keyword
             // start with @username
-            const textMention = `@${this.botName}`;
-            const startsWithMention = text.startsWith(textMention);
-            const textWithoutMention = text.slice(textMention.length + 1);
-            const followByTriggerKeyword = textWithoutMention.startsWith(
-                this.chatgptTriggerKeyword
-            );
-            triggered = startsWithMention && followByTriggerKeyword;
+            // const textMention = `@${this.botName}`;
+            // const startsWithMention = text.startsWith(textMention);
+            // const textWithoutMention = text.slice(textMention.length + 1);
+            // const followByTriggerKeyword = textWithoutMention.startsWith(
+            //     this.chatgptTriggerKeyword
+            // );
+            // triggered = startsWithMention && followByTriggerKeyword;
+            const keywords = ["@220", "@平安喜乐", "@赛博算命"];
+            for (let i = 0; i < keywords.length; i++) {
+                let keyword = keywords[i].replace(/\s/g, '') + this.chatgptTriggerKeyword;
+                if (text.replace(/\s/g, '').startsWith(keyword)) {
+                    triggered = true;
+                    break;
+                }
+            }
         }
         if (triggered) {
             console.log(`🎯 ChatGPT triggered: ${text}`);
