@@ -238,19 +238,20 @@ export class ChatGPTBot {
     }
 
     // reply to private message
-    private async onPrivateMessage(talker: ContactInterface, text: string) {
+    private async onPrivateMessage(talker: ContactInterface, text: string, message: Message) {
         // get reply from ChatGPT
         const chatgptReplyMessage = await this.onChatGPT(text);
         // send the ChatGPT reply to chat
-        await this.reply(talker, chatgptReplyMessage);
+        const wholeReplyMessage = `${text}\n----------\n${chatgptReplyMessage}`;
+        await this.reply(talker, wholeReplyMessage);
     }
 
     // reply to group message
-    private async onGroupMessage(room: RoomInterface, text: string) {
+    private async onGroupMessage(room: RoomInterface, text: string, message: Message) {
         // get reply from ChatGPT
         const chatgptReplyMessage = await this.onChatGPT(text);
         // the whole reply consist of: original text and bot reply
-        const wholeReplyMessage = `${text}\n----------\n${chatgptReplyMessage}`;
+        const wholeReplyMessage = `@${message.talker().name()}\r\n${text}\n----------\n${chatgptReplyMessage}`;
         await this.reply(room, wholeReplyMessage);
     }
 
@@ -274,10 +275,10 @@ export class ChatGPTBot {
         const text = this.cleanMessage(rawText, isPrivateChat);
         // reply to private or group chat
         if (isPrivateChat) {
-            return await this.onPrivateMessage(talker, text);
+            return await this.onPrivateMessage(talker, text, message);
         } else {
             // @ts-ignore
-            return await this.onGroupMessage(room, text);
+            return await this.onGroupMessage(room, text, message);
         }
     }
 
