@@ -3,8 +3,6 @@ import {Message} from "wechaty";
 import {ContactInterface, RoomInterface} from "wechaty/impls";
 import {Configuration, OpenAIApi} from "openai";
 
-const axios = require('axios');
-
 enum MessageType {
     Unknown = 0,
     Attachment = 1, // Attach(6),
@@ -281,10 +279,10 @@ export class ChatGPTBot {
 
     async fetchAPI(url: string) {
         try {
-            const response = await axios.get(url)
+            const response = await fetch(url)
             console.log({response});
             if (response.status === 200) {
-                return response.data;
+                return await response.json();
             } else {
                 console.log('请求异常')
             }
