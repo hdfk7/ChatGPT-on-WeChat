@@ -120,10 +120,10 @@ export class ChatGPTBot {
         if (item.length > 1) {
             text = item[item.length - 1];
         }
-        return text.slice(
+        return text.substring(
             isPrivateChat
-                ? this.chatgptTriggerKeyword.length
-                : this.chatGroupTriggerKeyword.length
+                ? this.chatgptTriggerKeyword.length + 1
+                : text.indexOf(this.chatgptTriggerKeyword) + this.chatgptTriggerKeyword.length + 1
         );
     }
 
