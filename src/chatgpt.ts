@@ -60,6 +60,7 @@ export class ChatGPTBot {
 
     //抽签相关
     signMap: Map<string, Date> = new Map;
+    signContentMap: Map<string, string> = new Map;
 
     // set bot name during login stage
     setBotName(botName: string) {
@@ -293,26 +294,47 @@ export class ChatGPTBot {
     }
 
     async 抽签(message: Message) {
-        const keyword = "抽签";
-        if (message.text().startsWith(keyword)) {
-            console.log(`🎯 Customized task triggered: ${keyword}`);
-            let talkerId = message.talker().id;
-            let date = this.signMap.get(talkerId);
-            let now = new Date();
-            if (date && date.getDate() == now.getDate()) {
-                const reply = `@${message.talker().name()}你今天已经抽过签了`;
+        const keywords = ["@220 抽签", "@平安喜乐 抽签"];
+        for (let i = 0; i < keywords.length; i++) {
+            let keyword = keywords[i];
+            if (message.text().startsWith(keyword)) {
+                console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
+                let date = this.signMap.get(talkerId);
+                let now = new Date();
+                if (date && date.getDate() == now.getDate()) {
+                    const reply = `@${message.talker().name()}你今天已经抽过签了`;
+                    await message.say(reply);
+                    break;
+                }
+                this.signMap.set(talkerId, now);
+                let content = "模拟抽签";
+                const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
-                return
+                break;
             }
-            this.signMap.set(talkerId, now);
-            let content = "模拟抽签";
-            const reply = `@${message.talker().name()} ${content}`;
-            await message.say(reply);
-            return;
         }
     }
 
     async 解签(message: Message) {
-
+        const keywords = ["@220 解签", "@平安喜乐 解签"];
+        for (let i = 0; i < keywords.length; i++) {
+            let keyword = keywords[i];
+            if (message.text().startsWith(keyword)) {
+                console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
+                let date = this.signMap.get(talkerId);
+                let now = new Date();
+                if (!date || date.getDate() != now.getDate()) {
+                    const reply = `@${message.talker().name()}你今天还没有抽签哟 干嘛呀`;
+                    await message.say(reply);
+                    break;
+                }
+                let content = this.signContentMap.get(talkerId);
+                const reply = `@${message.talker().name()} ${content}`;
+                await message.say(reply);
+                break;
+            }
+        }
     }
 }
