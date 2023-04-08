@@ -376,7 +376,10 @@ export class ChatGPTBot {
                 }
                 this.yijuMap.set(talkerId, now);
                 let res = await this.fetchAPI('https://www.mxnzp.com/api/daily_word/recommend?count=10&app_id=ckklxdsimobnsug8&app_secret=SUJUU1pKTnJhSjBhcHdVK09ocXFkUT09');
-                let content = res ? res : "拿不到了";
+                if (res && res.code === 1 && res.data) {
+                    res = res.data[parseInt(Math.random() * res.data.length + "", 10)];
+                }
+                let content = res ? res.content : "api调用失败";
                 this.yijuContentMap.set(talkerId, content);
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
@@ -384,5 +387,4 @@ export class ChatGPTBot {
             }
         }
     }
-
 }
