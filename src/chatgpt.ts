@@ -2,6 +2,7 @@ import {Config} from "./config.js";
 import {Message} from "wechaty";
 import {ContactInterface, RoomInterface} from "wechaty/impls";
 import {Configuration, OpenAIApi} from "openai";
+const fetch = require('node-fetch');
 
 enum MessageType {
     Unknown = 0,
