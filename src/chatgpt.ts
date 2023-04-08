@@ -2,6 +2,7 @@ import {Config} from "./config.js";
 import {Message} from "wechaty";
 import {ContactInterface, RoomInterface} from "wechaty/impls";
 import {Configuration, OpenAIApi} from "openai";
+const https = require('https');
 
 enum MessageType {
     Unknown = 0,
@@ -279,7 +280,8 @@ export class ChatGPTBot {
 
     async fetchAPI(url: string) {
         try {
-            const response = await fetch(url)
+            const response = await https.get(url)
+            console.log({response});
             if (response.status === 200) {
                 return await response.json();
             } else {
