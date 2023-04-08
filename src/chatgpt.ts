@@ -5,6 +5,9 @@ import {Configuration, OpenAIApi} from "openai";
 // @ts-ignore
 import fetch from "node-fetch";
 
+// @ts-ignore
+import chouqian from "chouqian.json";
+
 enum MessageType {
     Unknown = 0,
     Attachment = 1, // Attach(6),
@@ -331,7 +334,7 @@ export class ChatGPTBot {
                     break;
                 }
                 this.signMap.set(talkerId, now);
-                let content = "干嘛呀 我还没接入抽签功能哟 " + Math.random().toString().replace(".", "");
+                let content = chouqian[parseInt(Math.random() * chouqian.length + "", 10)];
                 this.signContentMap.set(talkerId, content);
                 const reply = `@${message.talker().name()} ${content}`;
                 await message.say(reply);
