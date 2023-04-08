@@ -29,8 +29,8 @@ async function main() {
         .on("message", async (message: any) => {
             try {
                 console.log(`📨 ${message}`);
-                console.log({timestamp: message.timestamp, startTime: chatGPTBot.startTime.getTime()})
-                // let msgDate = message.timestamp
+                console.log({timestamp: message.date(), startTime: chatGPTBot.startTime.getTime()})
+                // let msgDate = message.date()
                 // if (msgDate <= chatGPTBot.startTime.getTime()) {
                 //     return;
                 // }
