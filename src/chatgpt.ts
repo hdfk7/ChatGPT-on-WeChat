@@ -6,7 +6,7 @@ import {Configuration, OpenAIApi} from "openai";
 import fetch from "node-fetch";
 
 // @ts-ignore
-import chouqian from "chouqian.json";
+import chouqian from "json!./chouqian.json";
 
 enum MessageType {
     Unknown = 0,
