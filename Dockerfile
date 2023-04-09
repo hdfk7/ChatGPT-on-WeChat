@@ -1,5 +1,5 @@
 FROM python:3
-ENV TIME_ZONE Asia/Shanghai
+ENV TZ=Asia/Shanghai
 WORKDIR /app
 ARG POETRY_VERSION=1.2.2
 RUN apt-get update && \
