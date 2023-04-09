@@ -1,4 +1,5 @@
 FROM python:3
+ENV TZ=Asia/Shanghai
 WORKDIR /app
 ARG POETRY_VERSION=1.2.2
 RUN apt-get update && \
