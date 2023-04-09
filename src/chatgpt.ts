@@ -324,12 +324,12 @@ export class ChatGPTBot {
     }
 
     async getNow() {
-        let res = await this.fetchHtml('https://f.m.suning.com/api/ct.do');
+        let res = await this.fetchHtml('https://quan.suning.com/getSysTime.do');
         console.log({getNow: res});
-        if (res && JSON.parse(res)?.currentTime) {
-            return new Date(JSON.parse(res)?.currentTime);
+        if (res && JSON.parse(res)?.sysTime2) {
+            return JSON.parse(res)?.sysTime2.substring(0, 10);
         }
-        return new Date();
+        return null;
     }
 
     // handle message for customized task handlers
@@ -362,8 +362,8 @@ export class ChatGPTBot {
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
                 let now = await this.getNow();
-                console.log({now: now, ms: now.getTime(), signMap: this.signMap, talkerId: talkerId})
-                if (date && date.getDate() == now.getDate()) {
+                console.log({now: now, signMap: this.signMap, talkerId: talkerId})
+                if (date && date === now) {
                     const reply = `@${message.talker().name()} 你今天已经抽过签了`;
                     await message.say(reply);
                     break;
@@ -396,7 +396,7 @@ export class ChatGPTBot {
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
                 let now = await this.getNow();
-                if (!date || date.getDate() != now.getDate()) {
+                if (!date || date !== now) {
                     const reply = `@${message.talker().name()} 你今天还没有抽签呢`;
                     await message.say(reply);
                     break;
@@ -421,7 +421,7 @@ export class ChatGPTBot {
                 let talkerId = message.talker().id;
                 let date = this.yijuMap.get(talkerId);
                 let now = await this.getNow();
-                if (date && date.getDate() == now.getDate()) {
+                if (date && date === now) {
                     let content = this.yijuContentMap.get(talkerId);
                     const reply = `@${message.talker().name()} ${content}`;
                     await message.say(reply);
