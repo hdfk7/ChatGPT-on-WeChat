@@ -353,7 +353,7 @@ export class ChatGPTBot {
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
                 let now = new Date();
-                console.log({now: now, ms: now.getTime(), signMap: this.signMap})
+                console.log({now: now, ms: now.getTime(), signMap: this.signMap, talkerId: talkerId})
                 if (date && date.getDate() == now.getDate()) {
                     const reply = `@${message.talker().name()} 你今天已经抽过签了`;
                     await message.say(reply);
