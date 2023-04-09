@@ -323,6 +323,15 @@ export class ChatGPTBot {
         return null;
     }
 
+    async getNow() {
+        let res = await this.fetchHtml('https://f.m.suning.com/api/ct.do');
+        console.log({getNow: res});
+        if (res && JSON.parse(res)?.currentTime) {
+            return new Date(JSON.parse(res)?.currentTime);
+        }
+        return new Date();
+    }
+
     // handle message for customized task handlers
     async onCustimzedTask(message: Message) {
         this.麦扣(message);
@@ -352,7 +361,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
-                let now = new Date();
+                let now = await this.getNow();
                 console.log({now: now, ms: now.getTime(), signMap: this.signMap, talkerId: talkerId})
                 if (date && date.getDate() == now.getDate()) {
                     const reply = `@${message.talker().name()} 你今天已经抽过签了`;
@@ -386,7 +395,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
-                let now = new Date();
+                let now = await this.getNow();
                 if (!date || date.getDate() != now.getDate()) {
                     const reply = `@${message.talker().name()} 你今天还没有抽签呢`;
                     await message.say(reply);
@@ -411,7 +420,7 @@ export class ChatGPTBot {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
                 let talkerId = message.talker().id;
                 let date = this.yijuMap.get(talkerId);
-                let now = new Date();
+                let now = await this.getNow();
                 if (date && date.getDate() == now.getDate()) {
                     let content = this.yijuContentMap.get(talkerId);
                     const reply = `@${message.talker().name()} ${content}`;
