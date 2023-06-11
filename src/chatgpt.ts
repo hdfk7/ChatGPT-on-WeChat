@@ -354,14 +354,12 @@ export class ChatGPTBot {
     }
 
     async 抽签(message: Message) {
-        const talkerIds = ["220"];
-        const keywords = ["抽签"];
-        let talkerId = message.talker().id;
+        const keywords = ["@220 抽签", "@平安喜乐 抽签", "@赛博算命 抽签"];
         for (let i = 0; i < keywords.length; i++) {
-            console.log(`talkerId:${talkerId}`)
             let keyword = keywords[i].replace(/\s/g, '');
-            if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
                 let now = await this.getNow();
                 console.log({now: now, signMap: this.signMap, talkerId: talkerId})
@@ -390,13 +388,12 @@ export class ChatGPTBot {
     }
 
     async 解签(message: Message) {
-        const talkerIds = ["220"];
-        const keywords = ["解签"];
-        let talkerId = message.talker().id;
+        const keywords = ["@220 解签", "@平安喜乐 解签", "@赛博算命 解签"];
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
-            if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
                 let date = this.signMap.get(talkerId);
                 let now = await this.getNow();
                 if (!date || date !== now) {
@@ -416,13 +413,12 @@ export class ChatGPTBot {
     }
 
     async 每日一句(message: Message) {
-        const talkerIds = ["220"];
-        const keywords = ["fw"];
-        let talkerId = message.talker().id;
+        const keywords = ["@220 fw", "@平安喜乐 fw ", "@赛博算命 fw"];
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
-            if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
+            if (message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
+                let talkerId = message.talker().id;
                 let date = this.yijuMap.get(talkerId);
                 let now = await this.getNow();
                 if (date && date === now) {
