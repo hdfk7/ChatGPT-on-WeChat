@@ -354,11 +354,11 @@ export class ChatGPTBot {
     }
 
     async 抽签(message: Message) {
-        const talkerIds = ["@77fcf20815085344fd732dba271364bd8d5d72cfe2beabb3aad781f2da554eaf"];
+        const talkerIds = ["220"];
         const keywords = ["抽签"];
         let talkerId = message.talker().id;
-        console.log(`talkerId:${talkerId}`)
         for (let i = 0; i < keywords.length; i++) {
+            console.log(`talkerId:${talkerId}`)
             let keyword = keywords[i].replace(/\s/g, '');
             if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
                 console.log(`🎯 Customized task triggered: ${keyword}`);
@@ -390,10 +390,9 @@ export class ChatGPTBot {
     }
 
     async 解签(message: Message) {
-        const talkerIds = ["@77fcf20815085344fd732dba271364bd8d5d72cfe2beabb3aad781f2da554eaf"];
+        const talkerIds = ["220"];
         const keywords = ["解签"];
         let talkerId = message.talker().id;
-        console.log(`talkerId:${talkerId}`)
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
             if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
@@ -417,10 +416,9 @@ export class ChatGPTBot {
     }
 
     async 每日一句(message: Message) {
-        const talkerIds = ["@77fcf20815085344fd732dba271364bd8d5d72cfe2beabb3aad781f2da554eaf"];
+        const talkerIds = ["220"];
         const keywords = ["fw"];
         let talkerId = message.talker().id;
-        console.log(`talkerId:${talkerId}`)
         for (let i = 0; i < keywords.length; i++) {
             let keyword = keywords[i].replace(/\s/g, '');
             if (talkerIds.includes(talkerId) && message.text().replace(/\s/g, '').startsWith(keyword)) {
