@@ -22,14 +22,14 @@ async function main() {
         // login to WeChat desktop account
         .on("login", async (user: any) => {
             console.log(`✅ User ${user} has logged in`);
-            chatGPTBot.setBotName(user.name());
-            await chatGPTBot.startGPTBot();
+            // chatGPTBot.setBotName(user.name());
+            // await chatGPTBot.startGPTBot();
         })
         // message handler
         .on("message", async (message: any) => {
             try {
                 console.log(`📨 ${message}`);
-                console.log({timestamp: message.date().getTime(), startTime: chatGPTBot.startTime.getTime()})
+                // console.log({timestamp: message.date().getTime(), startTime: chatGPTBot.startTime.getTime()})
                 let msgDate = message.date();
                 if (msgDate.getTime() <= chatGPTBot.startTime.getTime()) {
                     return;
@@ -37,7 +37,7 @@ async function main() {
                 // handle message for customized task handlers
                 await chatGPTBot.onCustimzedTask(message);
                 // handle message for chatGPT bot
-                await chatGPTBot.onMessage(message);
+                // await chatGPTBot.onMessage(message);
             } catch (e) {
                 console.error(`❌ ${e}`);
             }
