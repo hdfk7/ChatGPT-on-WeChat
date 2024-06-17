@@ -30,7 +30,7 @@
     "nth-check": ">=2.0.1"
   },
   "nodemonConfig": {
-    "watch": "src",
+    "watch": ["src"],
     "ext": "ts",
     "exec": "node --loader ts-node/esm src/main.ts",
     "delay": 500
